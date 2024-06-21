@@ -20,7 +20,7 @@ app.get('/' , (req , res) =>{
     res.send('Welcome to Home Page');
 })
 app.use('/' , userRouter );
-app.use('/auth' , authRouter );
+app.use('/api/auth' , authRouter );
 
 app.use((err , req , res , next) =>{
   const statuscode = err.statuscode || 500;
