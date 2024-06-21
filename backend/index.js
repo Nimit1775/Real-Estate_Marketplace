@@ -16,4 +16,4 @@ app.listen(3000, () => {
 });
 
 
-app.use('/user' , userRouter );
+app.use('/' , userRouter );
