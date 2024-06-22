@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import Oauth from '../components/Oauth';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Signup() {
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false); 
-  const [error , setError] = useState(''); 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -17,11 +16,9 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loading state
+    setLoading(true);
 
     try {
-      console.log('Submitting:', formData); // Debugging log
-
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -31,12 +28,13 @@ export default function Signup() {
       });
 
       const data = await res.json();
-      console.log(data);
-      if(data.success === false){
+
+      if (data.success === false) {
         setError(data.message);
         setLoading(false);
         return;
       }
+
       setLoading(false);
       setError(null);
       navigate('/sign-in');
@@ -46,48 +44,68 @@ export default function Signup() {
       setError('An error occurred. Please try again later.');
     }
   };
-  console.log('FormData:', formData); // Debugging log to check state
 
   return (
-    <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-3xl text-center font-semibold my-7 text-slate-800'>Sign Up</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-      <input
-          type="text"
-          placeholder='username'
-          className='border p-3 rounded-lg'
-          id='username'
-          value={formData.username || ''}
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          placeholder='email'
-          className='border p-3 rounded-lg'
-          id='email'
-          value={formData.email || ''}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          placeholder='password'
-          className='border p-3 rounded-lg'
-          id='password'
-          value={formData.password || ''}
-          onChange={handleChange}
-        />
+    <div className='container mx-auto max-w-md mt-10 bg-white p-6 rounded-lg shadow-md'>
+      {/* Title */}
+      <h1 className='text-3xl text-center font-semibold mb-6 text-gray-800'>Sign Up</h1>
+      
+      {/* Form */}
+      <form onSubmit={handleSubmit} className='space-y-4'>
+        {/* Username Input */}
+        <div>
+          <label htmlFor='username' className='block text-sm font-medium text-gray-700'>Username</label>
+          <input
+            type='text'
+            id='username'
+            className='mt-1 block w-full border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            value={formData.username || ''}
+            onChange={handleChange}
+          />
+        </div>
+        
+        {/* Email Input */}
+        <div>
+          <label htmlFor='email' className='block text-sm font-medium text-gray-700'>Email</label>
+          <input
+            type='email'
+            id='email'
+            className='mt-1 block w-full border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            value={formData.email || ''}
+            onChange={handleChange}
+          />
+        </div>
+        
+        {/* Password Input */}
+        <div>
+          <label htmlFor='password' className='block text-sm font-medium text-gray-700'>Password</label>
+          <input
+            type='password'
+            id='password'
+            className='mt-1 block w-full border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            value={formData.password || ''}
+            onChange={handleChange}
+          />
+        </div>
+        
+        {/* Error Message */}
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+        
+        {/* Submit Button */}
         <button
+          type='submit'
           disabled={loading}
-          className={`bg-slate-800 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80`}         
+          className={`mt-4 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
         >
           {loading ? 'Signing Up...' : 'Sign Up'}
         </button>
-        <Oauth />
       </form>
-      <div className='flex gap-2 mt-5'>
-        <p> Have an Account?</p>
-        <Link to={'/sign-in'}>
-          <span className='text-blue-700'>Sign-in</span>
+      
+      {/* Sign In Link */}
+      <div className='mt-6 flex justify-center text-sm text-gray-600'>
+        <p>Already have an account?</p>
+        <Link to='/sign-in' className='ml-1 font-medium text-indigo-600 hover:text-indigo-500'>
+          Sign in
         </Link>
       </div>
     </div>
