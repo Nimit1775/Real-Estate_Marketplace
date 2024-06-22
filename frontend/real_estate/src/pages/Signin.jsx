@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-export default function Signup() {
+export default function Signin() {
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false); // State for loading button
-
+  const [loading, setLoading] = useState(false); 
+  const [error , setError] = useState(''); 
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -19,7 +21,7 @@ export default function Signup() {
     try {
       console.log('Submitting:', formData); // Debugging log
 
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,33 +30,27 @@ export default function Signup() {
       });
 
       const data = await res.json();
-      console.log('Response:', data);
-
-      // Reset form after successful submission (optional)
-      setFormData({});
+      console.log(data);
+      if(data.success === false){
+        setError(data.message);
+        setLoading(false);
+        return;
+      }
+      setLoading(false);
+      setError(null);
+      navigate('/');
       
     } catch (error) {
-      console.error('Error:', error);
-      // Handle error if needed
-    } finally {
-      setLoading(false); // Reset loading state after submission
+      setLoading(false);
+      setError('An error occurred. Please try again later.');
     }
   };
-
   console.log('FormData:', formData); // Debugging log to check state
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
-      <h1 className='text-3xl text-center font-semibold my-7 text-slate-800'>Signup</h1>
+      <h1 className='text-3xl text-center font-semibold my-7 text-slate-800'>Sign In</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-        <input
-          type="text"
-          placeholder='username'
-          className='border p-3 rounded-lg'
-          id='username'
-          value={formData.username || ''}
-          onChange={handleChange}
-        />
         <input
           type="email"
           placeholder='email'
@@ -72,17 +68,16 @@ export default function Signup() {
           onChange={handleChange}
         />
         <button
-          type="submit" // Ensure it's a submit button to trigger onSubmit
-          className={`bg-slate-800 text-white p-3 rounded-lg uppercase hover:opacity-95 ${loading ? 'opacity-80 cursor-not-allowed' : ''}`}
           disabled={loading}
+          className={`bg-slate-800 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80`}         
         >
-          {loading ? 'Signing Up...' : 'Sign-Up'}
+          {loading ? 'Signing Up...' : 'Sign In'}
         </button>
       </form>
       <div className='flex gap-2 mt-5'>
-        <p>Have an Account?</p>
-        <Link to={'/sign-in'}>
-          <span className='text-blue-700'>Sign-in</span>
+        <p> Dont Have an Account?</p>
+        <Link to={'/sign-up'}>
+          <span className='text-blue-700'>Sign-up</span>
         </Link>
       </div>
     </div>
