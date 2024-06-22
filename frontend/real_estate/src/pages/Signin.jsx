@@ -10,7 +10,7 @@ export default function Signin() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value.trim()  
     });
   };
 
@@ -19,7 +19,7 @@ export default function Signin() {
     setLoading(true); // Start loading state
 
     try {
-      console.log('Submitting:', formData); // Debugging log
+      
 
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
@@ -71,7 +71,7 @@ export default function Signin() {
           disabled={loading}
           className={`bg-slate-800 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80`}         
         >
-          {loading ? 'Signing Up...' : 'Sign In'}
+          {loading ? 'Loading...' : 'Sign In'}
         </button>
       </form>
       <div className='flex gap-2 mt-5'>
