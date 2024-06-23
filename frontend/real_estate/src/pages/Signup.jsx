@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Oauth from '../components/Oauth';
 
 export default function Signup() {
   const [formData, setFormData] = useState({});
@@ -99,6 +100,10 @@ export default function Signup() {
         >
           {loading ? 'Signing Up...' : 'Sign Up'}
         </button>
+          {/* OAuth Button Container */}
+      <div className='mt-4 flex justify-center'>
+        <Oauth />
+      </div>
       </form>
       
       {/* Sign In Link */}
