@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.get('/' , (req , res) =>{
     res.send('Welcome to Home Page');
 })
-app.use('/' , userRouter );
+app.use('/api/user' , userRouter );
 app.use('/api/auth' , authRouter );
 
 app.use((err , req , res , next) =>{

@@ -57,7 +57,7 @@ export default function Profile() {
             alt="Profile"
           />
           <div className="inset-0 bg-blue-800 bg-opacity-0 group-hover:bg-opacity-20 rounded-full transition-all duration-300 flex items-center justify-center">
-            <span className="absolute bottom-10 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Change</span>
+            <span className="absolute bottom-10 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
           </div>
         </div>
         <p className="mt-2 text-sm">
