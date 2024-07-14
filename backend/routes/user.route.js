@@ -1,9 +1,10 @@
 
 import express from 'express';
-import { test, updateUser } from '../controllers/user.controller.js';
+import { deleteUser, test, updateUser } from '../controllers/user.controller.js';
 
 const router = express.Router();
 router.get('/test' , test)
 router.post('/update/:id' , updateUser); 
+router.delete('/delete/:id' , deleteUser); 
  
-export default router;  
+export default router;   
